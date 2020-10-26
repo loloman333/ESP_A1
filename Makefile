@@ -16,6 +16,10 @@ bin:                  ## compiles project to executable binary
 
 all: clean bin        ## all of the above
 
+run: all              ## runs the project with default config
+	@echo "[\033[36mINFO\033[0m] Executing binary..."
+	./$(ASSIGNMENT)
+
 test: all             ## runs public testcases on the project
 	@echo "[\033[36mINFO\033[0m] Executing testrunner..."
 	./testrunner -c test.toml

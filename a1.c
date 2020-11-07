@@ -2,8 +2,8 @@
 // a1.c
 //
 // Gross Net Calculator
-// Calculates the net income based on user inputs for the gross income
-// and children in the household
+// Calculates the net income based on user inputs for 
+// the gross income and children in the household
 //
 // Group: 12
 //
@@ -14,25 +14,26 @@
 #include <stdio.h>
 
 // forward declarations
+
 int getInputGrossIncome();
 int getInputChildren();
 
 double calculateSocialInsurance(double calculationBase);
 double calculateIncomeTax(double calculationBase, char children);
-double calculateNetIncome(unsigned grossIncome, double socialInsuranceFee, double incomeTax);
+double calculateNetIncome(double grossIncome, double socialInsuranceFee, double incomeTax);
 
 void printResults(double grossIncome, double netIncome, double socialInsuranceFee, double incomeTax);
 
 //-----------------------------------------------------------------------------
 ///
 /// The main program
-/// TODO
+/// 
+/// Calls the functions to get user inputs, calculate the net income and print the results
 ///
 /// @return always zero
 //
 int main()
 {
-
   unsigned grossIncome = getInputGrossIncome();
   char children = getInputChildren();
 
@@ -47,9 +48,9 @@ int main()
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Asks the user for the gross income and repeats until the input is valid
 ///
-/// @return always zero
+/// @return input from user between 1 and 5000000
 //
 int getInputGrossIncome()
 {
@@ -73,34 +74,44 @@ int getInputGrossIncome()
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Asks the user if there are children in the household and repeats until the input is valid
 ///
-/// @return always zero
+/// @return 1 if there are children 0 otherwise
 //
 int getInputChildren()
 {
-  char input = 0;
+  char input;
+  char children = 2;
 
-  while (input == 0)
+  while (children == 2)
   {
     printf("Kinder im Haushalt?: ");
     scanf("\n%c", &input);
 
-    if (input != 'j' && input != 'J' && input != 'n' && input != 'N')
+    if (input == 'j' || input == 'J')
+    {
+      children = 1;
+    } 
+    else if (input == 'n' || input == 'N')
+    {
+      children = 0;;
+    }
+    else 
     {
       printf("Invalide Eingabe!\n"); 
-      input = 0;
     }
   }
 
-  return input;
+  return children;
 }
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Calculates the social insurance fee based a calculation base (gross income)
 ///
-/// @return always zero
+/// @param calculationBase the base value for the calculation
+///
+/// @return the social insurance fee
 //
 double calculateSocialInsurance(double calculationBase)
 {
@@ -127,9 +138,13 @@ double calculateSocialInsurance(double calculationBase)
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Calculates the income tax based a calculation base (gross income - social insurance fee)
+/// and a second parameter telling if there are children in the household
 ///
-/// @return always zero
+/// @param calculationBase the base value for the calculation
+/// @param children 1 if there are children in the household 0 otherwise
+///
+/// @return the income tax based 
 //
 double calculateIncomeTax(double calculationBase, char children)
 {
@@ -147,7 +162,7 @@ double calculateIncomeTax(double calculationBase, char children)
     }
   }
 
-  if (children == 'j' || children == 'J')
+  if (children)
   {
     if (incomeTax <= 100)
     {
@@ -164,20 +179,28 @@ double calculateIncomeTax(double calculationBase, char children)
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Calculates the net income based on a simple formula
 ///
-/// @return always zero
+/// @param grossIncome the gross income
+/// @param socialInsuranceFee the social insurance fee
+/// @param incomeTax the income tax
+///
+/// @return the net income
 //
-double calculateNetIncome(unsigned grossIncome, double socialInsuranceFee, double incomeTax)
+double calculateNetIncome(double grossIncome, double socialInsuranceFee, double incomeTax)
 {
   return grossIncome - (socialInsuranceFee + incomeTax);
 }
 
 //-----------------------------------------------------------------------------
 ///
-/// TODO
+/// Prints an output for the user that shows the net income and how it was calculated
 ///
-/// @return always zero
+/// @param grossIncome the gross income
+/// @param netIncome the net income
+/// @param socialInsuranceFee the social insurance fee
+/// @param incomeTax the income tax
+///
 //
 void printResults(double grossIncome, double netIncome, double socialInsuranceFee, double incomeTax)
 {

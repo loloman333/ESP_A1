@@ -18,11 +18,11 @@
 int getInputGrossIncome();
 int getInputChildren();
 
-double calculateSocialInsurance(double calculationBase);
-double calculateIncomeTax(double calculationBase, char children);
-double calculateNetIncome(double grossIncome, double socialInsuranceFee, double incomeTax);
+double calculatesocialInsuranceFee(double calculation_base);
+double calculateIncomeTax(double calculation_base, char children);
+double calculateNetIncome(double gross_income, double social_insurance_fee, double income_tax);
 
-void printResults(double grossIncome, double netIncome, double socialInsuranceFee, double incomeTax);
+void printResults(double gross_income, double net_income, double social_insurance_fee, double income_tax);
 
 //-----------------------------------------------------------------------------
 ///
@@ -34,14 +34,14 @@ void printResults(double grossIncome, double netIncome, double socialInsuranceFe
 //
 int main()
 {
-  unsigned grossIncome = getInputGrossIncome();
+  unsigned gross_income = getInputGrossIncome();
   char children = getInputChildren();
 
-  double socialInsuranceFee = calculateSocialInsurance(grossIncome);
-  double incomeTax = calculateIncomeTax(grossIncome - socialInsuranceFee, children);
-  double netIncome = calculateNetIncome(grossIncome, socialInsuranceFee, incomeTax);
+  double social_insurance_fee = calculatesocialInsuranceFee(gross_income);
+  double income_tax = calculateIncomeTax(gross_income - social_insurance_fee, children);
+  double net_income = calculateNetIncome(gross_income, social_insurance_fee, income_tax);
 
-  printResults(grossIncome, netIncome, socialInsuranceFee, incomeTax);
+  printResults(gross_income, net_income, social_insurance_fee, income_tax);
 
   return 0;
 }
@@ -109,11 +109,11 @@ int getInputChildren()
 ///
 /// Calculates the social insurance fee based a calculation base (gross income)
 ///
-/// @param calculationBase the base value for the calculation
+/// @param calculation_base the base value for the calculation
 ///
 /// @return the social insurance fee
 //
-double calculateSocialInsurance(double calculationBase)
+double calculatesocialInsuranceFee(double calculation_base)
 {
   unsigned limits[] = {2049, 1891, 1733, 460};
   unsigned rates[] = {18, 17, 16, 15};
@@ -122,18 +122,18 @@ double calculateSocialInsurance(double calculationBase)
 
   for (unsigned char i = 0; i <= 3; i++)
   {
-    if (multiplicator == 0 && calculationBase > limits[i])
+    if (multiplicator == 0 && calculation_base > limits[i])
     {
       multiplicator = rates[i];
     }
   }
 
-  if (multiplicator == rates[0] && calculationBase > 5370)
+  if (multiplicator == rates[0] && calculation_base > 5370)
   {
-    calculationBase = 5370;
+    calculation_base = 5370;
   }
 
-  return calculationBase * (multiplicator / 100.0);
+  return calculation_base * (multiplicator / 100.0);
 }
 
 //-----------------------------------------------------------------------------
@@ -141,71 +141,71 @@ double calculateSocialInsurance(double calculationBase)
 /// Calculates the income tax based a calculation base (gross income - social insurance fee)
 /// and a second parameter telling if there are children in the household
 ///
-/// @param calculationBase the base value for the calculation
+/// @param calculation_base the base value for the calculation
 /// @param children 1 if there are children in the household 0 otherwise
 ///
 /// @return the income tax based 
 //
-double calculateIncomeTax(double calculationBase, char children)
+double calculateIncomeTax(double calculation_base, char children)
 {
   unsigned limits[] = {5000, 2500, 1500, 1000};
   unsigned rates[] = {50, 40, 30, 20};
 
-  double incomeTax = 0.0;
+  double income_tax = 0.0;
 
   for (unsigned i = 0; i <= 3; i++)
   {
-    if (calculationBase > limits[i])
+    if (calculation_base > limits[i])
     {
-      incomeTax += (calculationBase - limits[i]) * (rates[i] / 100.0);
-      calculationBase = limits[i];
+      income_tax += (calculation_base - limits[i]) * (rates[i] / 100.0);
+      calculation_base = limits[i];
     }
   }
 
   if (children)
   {
-    if (incomeTax <= 100)
+    if (income_tax <= 100)
     {
-      incomeTax = 0;
+      income_tax = 0;
     }
     else
     {
-      incomeTax -= 100;
+      income_tax -= 100;
     }
   }
 
-  return incomeTax;
+  return income_tax;
 }
 
 //-----------------------------------------------------------------------------
 ///
 /// Calculates the net income based on a simple formula
 ///
-/// @param grossIncome the gross income
-/// @param socialInsuranceFee the social insurance fee
-/// @param incomeTax the income tax
+/// @param gross_income the gross income
+/// @param social_insurance_fee the social insurance fee
+/// @param income_tax the income tax
 ///
 /// @return the net income
 //
-double calculateNetIncome(double grossIncome, double socialInsuranceFee, double incomeTax)
+double calculateNetIncome(double gross_income, double social_insurance_fee, double income_tax)
 {
-  return grossIncome - (socialInsuranceFee + incomeTax);
+  return gross_income - (social_insurance_fee + income_tax);
 }
 
 //-----------------------------------------------------------------------------
 ///
 /// Prints an output for the user that shows the net income and how it was calculated
 ///
-/// @param grossIncome the gross income
-/// @param netIncome the net income
-/// @param socialInsuranceFee the social insurance fee
-/// @param incomeTax the income tax
+/// @param gross_income the gross income
+/// @param net_income the net income
+/// @param social_insurance_fee the social insurance fee
+/// @param income_tax the income tax
 ///
 //
-void printResults(double grossIncome, double netIncome, double socialInsuranceFee, double incomeTax)
+void printResults(double gross_income, double net_income, double social_insurance_fee, double income_tax)
 {
-  printf("Brutto:\t\t%12.2f\n", grossIncome);
-  printf("SV:\t\t%12.2f\n", socialInsuranceFee * -1);
-  printf("LSt:\t\t%12.2f\n", incomeTax * -1);
-  printf("Netto:\t\t%12.2f\n", netIncome);
+  printf("Brutto:\t\t%12.2f\n", gross_income);
+  printf("SV:\t\t%12.2f\n", social_insurance_fee * -1);
+  printf("LSt:\t\t%12.2f\n", income_tax * -1);
+  printf("Netto:\t\t%12.2f\n", net_income);
 }

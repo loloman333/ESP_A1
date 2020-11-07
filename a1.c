@@ -18,7 +18,7 @@
 int getInputGrossIncome();
 int getInputChildren();
 
-double calculatesocialInsuranceFee(double calculation_base);
+double calculateSocialInsuranceFee(double calculation_base);
 double calculateIncomeTax(double calculation_base, char children);
 double calculateNetIncome(double gross_income, double social_insurance_fee, double income_tax);
 
@@ -37,7 +37,7 @@ int main()
   unsigned gross_income = getInputGrossIncome();
   char children = getInputChildren();
 
-  double social_insurance_fee = calculatesocialInsuranceFee(gross_income);
+  double social_insurance_fee = calculateSocialInsuranceFee(gross_income);
   double income_tax = calculateIncomeTax(gross_income - social_insurance_fee, children);
   double net_income = calculateNetIncome(gross_income, social_insurance_fee, income_tax);
 
@@ -113,7 +113,7 @@ int getInputChildren()
 ///
 /// @return the social insurance fee
 //
-double calculatesocialInsuranceFee(double calculation_base)
+double calculateSocialInsuranceFee(double calculation_base)
 {
   unsigned limits[] = {2049, 1891, 1733, 460};
   unsigned rates[] = {18, 17, 16, 15};
